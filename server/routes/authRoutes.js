@@ -5,7 +5,7 @@ const UserModel = require("../models/UserModel");
 const jwt = require("jsonwebtoken");
 const loginJWTmiddleware = require("../middleware/loginJWTmiddleware");
 
-const JWT_SECRET_KEY = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.get("/protected", loginJWTmiddleware, (req, res) => {
   res.send("Hello user");
@@ -56,7 +56,7 @@ router.post("/signin", (req, res) => {
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
-          const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET_KEY);
+          const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
           res.json({ token: token });
         } else {
           return res.status(422).json({ error: "Invalid password" });

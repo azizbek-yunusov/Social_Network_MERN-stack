@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/UserModel");
 
-const JWT_SECRET_KEY = process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
@@ -9,9 +9,9 @@ module.exports = (req, res, next) => {
     res.status(402).json({ error: "You must be logged in" });
   }
   const token = authorization.replace("Aziz ", "");
-  jwt.verify(token, JWT_SECRET_KEY, (err, payload) => {
+  jwt.verify(token, JWT_SECRET, (err, payload) => {
     if (err) {
-      return res.status(401).json({ error: "You must be logged in 2" });
+      return res.status(401).json({ error: "You should logged in profile" });
     }
 
     const { _id } = payload;
@@ -19,7 +19,5 @@ module.exports = (req, res, next) => {
       req.user = userData;
       next();
     });
-
   });
-
 };
