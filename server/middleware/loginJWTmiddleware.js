@@ -1,0 +1,25 @@
+const jwt = require("jsonwebtoken");
+const UserModel = require("../models/UserModel");
+
+const JWT_SECRET_KEY = process.env.JWT_SECRET
+
+module.exports = (req, res, next) => {
+  const { authorization } = req.headers;
+  if (!authorization) {
+    res.status(402).json({ error: "You must be logged in" });
+  }
+  const token = authorization.replace("Aziz ", "");
+  jwt.verify(token, JWT_SECRET_KEY, (err, payload) => {
+    if (err) {
+      return res.status(401).json({ error: "You must be logged in 2" });
+    }
+
+    const { _id } = payload;
+    UserModel.findById(_id).then((userData) => {
+      req.user = userData;
+    });
+
+    next();
+  });
+
+};
