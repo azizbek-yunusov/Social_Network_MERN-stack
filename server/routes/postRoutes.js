@@ -15,7 +15,7 @@ router.get("/allpost", (req, res) => {
 });
 
 router.post("/createpost", loginJWTmiddleware, (req, res) => {
-  const { title, body } = req.body;
+  const { title, body, picture} = req.body;
   if ((!title, !body)) {
     return res.status(422).json({ error: "Please add all the feild" });
   }
@@ -23,6 +23,7 @@ router.post("/createpost", loginJWTmiddleware, (req, res) => {
   const post = new PostModel({
     title,
     body,
+    picture,
     postedBy: req.user,
   });
 

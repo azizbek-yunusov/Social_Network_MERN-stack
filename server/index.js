@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
+const cors = require('cors')
 const mongoose = require("mongoose");
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes")
 const postRoutes = require("./routes/postRoutes")
+
+app.use(cors())
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
